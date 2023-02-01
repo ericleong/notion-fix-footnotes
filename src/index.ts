@@ -98,7 +98,7 @@ function parseForReferences(
 
 async function replaceLinks(
   notion: Client,
-  page_url: string,
+  pageUrl: string,
   references: {
     fn: Map<string, BlockObjectResponse>;
     fnref: Map<string, NumberedListItemBlockObjectResponse>;
@@ -154,7 +154,7 @@ async function replaceLinks(
                 );
 
                 url =
-                  page_url +
+                  pageUrl +
                   "#" +
                   references.fnref.get(urlref)?.id.replaceAll("-", "");
               } else {
@@ -231,7 +231,7 @@ async function replaceLinks(
 
           if (responseText.content.lastIndexOf(refnum) >= 0) {
             const url =
-              page_url +
+              pageUrl +
               "#" +
               references.fnref.get(refnum)?.id.replaceAll("-", "");
 
@@ -313,9 +313,7 @@ async function replaceLinks(
           var url;
           if (responseText.link.url.startsWith("about:blank#fnref")) {
             url =
-              page_url +
-              "#" +
-              references.fn.get(refnum)?.id.replaceAll("-", "");
+              pageUrl + "#" + references.fn.get(refnum)?.id.replaceAll("-", "");
           } else {
             url = responseText.link.url;
           }
@@ -350,28 +348,28 @@ async function replaceLinks(
 }
 
 async function getPages(notion: Client) {
-  var pages_response = await notion.search({
+  var response = await notion.search({
     filter: {
       property: "object",
       value: "page",
     },
   });
 
-  var page_results = [...pages_response.results];
+  var results = [...response.results];
 
-  while (pages_response.has_more && pages_response.next_cursor != null) {
-    pages_response = await notion.search({
+  while (response.has_more && response.next_cursor != null) {
+    response = await notion.search({
       filter: {
         property: "object",
         value: "page",
       },
-      start_cursor: pages_response.next_cursor,
+      start_cursor: response.next_cursor,
     });
 
-    page_results = [...page_results, ...pages_response.results];
+    results = [...results, ...response.results];
   }
 
-  return page_results;
+  return results;
 }
 
 async function replaceLinksInPage(notion: Client, page: PageObjectResponse) {
