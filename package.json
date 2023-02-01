@@ -1,7 +1,7 @@
 {
-  "name": "notion-sdk-project",
-  "version": "1.0.0",
-  "description": "",
+  "name": "notion-fix-footnotes",
+  "version": "0.0.1",
+  "description": "Fixes the footnotes of notion pages created via Markdown import ",
   "main": "dist/index.js",
   "private": true,
   "scripts": {

@@ -1,34 +1,51 @@
-# notion-sdk-typescript-starter
+# notion-fix-footnotes
 
-This is a template repository for getting started with the [Notion SDK](https://github.com/makenotion/notion-sdk-js)
-and [TypeScript](https://www.typescriptlang.org/).
+Fixes the footnotes of [Notion](https://www.notion.so/) pages created via Markdown import.
 
-To use this template, click the big green "Use this template" button in the upper-right corner. After some questions,
-GitHub will create a new clone under your account, and then you can get started customizing.
+*Note that this repository is not intended to be a full project, it definitely will not work on every possible input. Ideally Notion would add this functionality to their import tool.*
 
-## Features
+## Why?
 
-- TypeScript for type checking.
-- [Prettier](https://prettier.io/) for code formatting.
-- A minimal GitHub Actions workflow that typechecks your code.
-- [Dotenv](https://www.npmjs.com/package/dotenv) for configuring your Notion API token.
-- [Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuring-dependabot-version-updates)
-  for ensuring your (and this template's!) dependencies are up to date.
-- Our lovely Notion SDK!
+For example, if the below markdown file is upladed to Notion:
 
-## What to do after duplicating
+```md
+> Useless to ask which is the first term, there is none, it is a
+> circular process—that of simulation, that of the hyperreal. The
+> hyperreality of communication and of meaning. More real than the real,
+> that is how the real is abolished.[^1]
+
+[^1]: Jean Baudrillard, *Simulacra and Simulation*, trans. Faria Sheila
+    Glaser (Ann Arbor: The University of Michigan Press, 1994), 81.
+```
+
+generates this html:
+
+```html
+<p>Bourdieu once said analogy is “functioning as a circular mode of thought, makes it possible to tour the whole area of art and luxury without ever leaving it.”<a href="about:blank#fn1">1</a> Does that not make analogy <em>hyperreal</em>?</p>
+<p>Useless to ask which is the first term, there is none, it is a circular process—that of simulation, that of the hyperreal. The hyperreality of communication and of meaning. More real than the real, that is how the real is abolished.<a href="about:blank#fn2">2</a></p>
+<hr />
+<ol type="1" start="1">
+    <li>Pierre Bourdieu, <em>Distinction: A Social Critique of the Judgement of Taste</em>, trans. Richard Nice (Cambridge, Massachusetts: Harvard University Press, 1984), 53.<a href="about:blank#fnref1">↩</a></li>
+</ol>
+<ol type="1" start="2">
+    <li>Jean Baudrillard, <em>Simulacra and Simulation</em>, trans. Faria Sheila Glaser (Ann Arbor: The University of Michigan Press, 1994), 81.<a href="about:blank#fnref2">↩</a></li>
+</ol>
+```
+
+The link to `about:blank#fn1` doesn't go to the footnote, and the backreference `about:blank#fnref1` doesn't go to the paragraph block. This integration goes through the integrated pages and replaces the above *useless* links with *page-specific* links so that you can jump between the block that contains the reference number and the footnote.
+
+Note that this integration *does not* fix altered blocks that have been moved to another page! This functionality may be added in a future version.
+
+## How to use
 
 1. Make sure you've [created a Notion integration](https://developers.notion.com/docs/getting-started) and have a secret Notion token.
 2. Add your Notion token to a `.env` file at the root of this repository: `echo "NOTION_TOKEN=[your token here]" > .env`.
 3. Run `npm install`.
-4. Edit the `database_id` in `index.ts` from FIXME to be any database currently shared with your integration.
+4. Add this integration to the pages where the footnotes need to be fixed.
 5. Run `npm start` to run the script.
-
-Now you can head over to our [developer documentation](https://developers.notion.com/) for more information on using the Notion API!
+6. Remove this integration from the pages that have been fixed.
 
 ## NPM Scripts
-
-This template has a few built-in NPM scripts:
 
 | Script              | Action                                                                                                                                                                          |
 | - | - |
