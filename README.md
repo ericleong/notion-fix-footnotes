@@ -43,7 +43,7 @@ The link to `about:blank#fn1` doesn't go to the footnote, and the backreference 
 
 This integration goes through the integrated pages and replaces the above *useless* links with *page-specific* links so that you can jump between the block that contains the reference number and the footnote.
 
-Note that this integration *does not* fix altered blocks that have been moved to another page! This functionality may be added in a future version.
+Note that this integration *does not* fix altered blocks that have been moved to another page! This functionality may be added in a future version, but it is difficult because the `numbered_list_item` block type does not have the ordinal number. This also means that this integration is *lossy*, it may not be possible to recreate the original markdown file without human intervention.
 
 ## How to use
 
