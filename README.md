@@ -6,7 +6,7 @@ Fixes the footnotes of [Notion](https://www.notion.so/) pages created via Markdo
 
 ## Why?
 
-For example, if the below markdown file is upladed to Notion:
+For example, if the below markdown file is uploaded to Notion:
 
 ```md
 > Useless to ask which is the first term, there is none, it is a
