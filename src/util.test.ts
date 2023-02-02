@@ -1,5 +1,17 @@
 import { findFootnote } from "./util";
 
+test("parse empty string", () => {
+  expect(findFootnote("")).toBeNull();
+});
+
+test("parse only number", () => {
+  expect(findFootnote("5")).toBe("5");
+});
+
+test("parse only letter", () => {
+  expect(findFootnote("a")).toBeNull();
+});
+
 test("parse no footnote after period", () => {
   expect(findFootnote("no footnote after period.")).toBeNull();
 });

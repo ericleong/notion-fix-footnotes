@@ -5,23 +5,17 @@
  * @returns the footnote number
  */
 export function findFootnote(content: string) {
-  var footnote: string | null = content.substring(content.lastIndexOf(".") + 1);
+  var footnote = null;
 
-  if (!(parseInt(footnote, 10) > 0)) {
-    if (content.length - content.lastIndexOf("”") < 5) {
-      footnote = parseInt(
-        content.substring(content.lastIndexOf("”") + 1)
-      ).toString();
-    } else if (content.lastIndexOf("…") >= 0) {
-      footnote = parseInt(
-        content.substring(content.lastIndexOf("…") + 1)
-      ).toString();
-    } else if (content.lastIndexOf("?") >= 0) {
-      footnote = parseInt(
-        content.substring(content.lastIndexOf("?") + 1)
-      ).toString();
+  for (var i = content.length - 1; i >= 0; i--) {
+    const rtext = content.slice(i);
+    if (
+      parseInt(rtext, 10) > 0 &&
+      (footnote == null || parseInt(rtext, 10) > parseInt(footnote, 10))
+    ) {
+      footnote = rtext;
     } else {
-      footnote = null;
+      break;
     }
   }
 
