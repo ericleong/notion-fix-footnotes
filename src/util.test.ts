@@ -8,6 +8,10 @@ test("parse only number", () => {
   expect(findFootnote("5")).toBe("5");
 });
 
+test("parse only number with space after", () => {
+  expect(findFootnote("5 ")).toBe("5");
+});
+
 test("parse only letter", () => {
   expect(findFootnote("a")).toBeNull();
 });
@@ -34,6 +38,10 @@ test("parse footnote after multiple periods", () => {
 
 test("parse footnote after multiple periods, multiple footnotes", () => {
   expect(findFootnote("first sentence.6 footnote after period.7")).toBe("7");
+});
+
+test("parse footnote after multiple periods, multiple footnotes, space after", () => {
+  expect(findFootnote("first sentence.6 footnote after period.7 ")).toBe("7");
 });
 
 test("parse large footnote after period", () => {
