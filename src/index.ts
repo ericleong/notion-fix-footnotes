@@ -9,6 +9,7 @@ import {
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import dotenv from "dotenv";
+import { findFootnote } from "./util";
 
 dotenv.config();
 
@@ -42,28 +43,12 @@ function parseForReferences(
       const quote = block as QuoteBlockObjectResponse;
       quote.quote?.rich_text?.forEach((item) => {
         if (!item.href) {
-          // search for a number if there is no link
-          const content = (item as TextRichTextItemResponse)?.text.content;
+          const footnote = findFootnote(
+            (item as TextRichTextItemResponse)?.text.content
+          );
 
-          var refnum = content.substring(content.lastIndexOf(".") + 1);
-
-          if (!(parseInt(refnum, 10) > 0)) {
-            if (content.length - content.lastIndexOf("”") < 5) {
-              refnum = parseInt(
-                content.substring(content.lastIndexOf("”") + 1)
-              ).toString();
-            } else if (content.lastIndexOf("…") >= 0) {
-              refnum = parseInt(
-                content.substring(content.lastIndexOf("…") + 1)
-              ).toString();
-            } else if (content.lastIndexOf("?") >= 0) {
-              refnum = parseInt(
-                content.substring(content.lastIndexOf("?") + 1)
-              ).toString();
-            }
-          }
-          if (parseInt(refnum, 10) > 0) {
-            references.fn.set(refnum, quote);
+          if (footnote) {
+            references.fn.set(footnote, quote);
           }
         }
       });
