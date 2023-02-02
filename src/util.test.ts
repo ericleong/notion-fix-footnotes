@@ -20,6 +20,10 @@ test("parse footnote after multiple periods", () => {
   expect(findFootnote("first sentence. footnote after period.7")).toBe("7");
 });
 
+test("parse footnote after multiple periods, multiple footnotes", () => {
+  expect(findFootnote("first sentence.6 footnote after period.7")).toBe("7");
+});
+
 test("parse large footnote after period", () => {
   expect(findFootnote("footnote after period.127")).toBe("127");
 });
