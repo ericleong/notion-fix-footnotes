@@ -2,7 +2,7 @@
  * Searches for a footnote number at the end of a string.
  *
  * @param content the string to search
- * @returns
+ * @returns the footnote number
  */
 export function findFootnote(content: string) {
   var footnote: string | null = content.substring(content.lastIndexOf(".") + 1);
