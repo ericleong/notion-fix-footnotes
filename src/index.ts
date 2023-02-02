@@ -43,8 +43,10 @@ function parseForReferences(
       const quote = block as QuoteBlockObjectResponse;
       quote.quote?.rich_text?.forEach((item) => {
         if (!item.href) {
-          const footnote = findFootnote((item as TextRichTextItemResponse)?.text.content);
-          
+          const footnote = findFootnote(
+            (item as TextRichTextItemResponse)?.text.content
+          );
+
           if (footnote) {
             references.fn.set(footnote, quote);
           }
